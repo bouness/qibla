@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1a1a2e" />
+  <meta name="description" content="Find Qibla direction and prayer times for any location worldwide." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Qibla" />
+  <title>Qibla & Prayer Times</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="bg-pattern" aria-hidden="true"></div>
+
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Settings and search">
+      <div class="sb-logo">
+        <div class="sb-logo-icon" aria-hidden="true">🕋</div>
+        <div>
+          <span class="sb-logo-ar">قِبلة</span>
+          <span class="sb-logo-en">Qibla</span>
+        </div>
+      </div>
+
+      <div class="sb-field">
+        <label class="sb-label" for="locationInput" data-i18n="location">Location</label>
+        <div class="sb-input-wrap">
+          <i class="sb-input-icon ti ti-map-pin" aria-hidden="true"></i>
+          <input id="locationInput" type="text" class="sb-input"
+            placeholder="City, address or ZIP…"
+            data-i18n-placeholder="searchPlaceholder"
+            autocomplete="off" spellcheck="false" />
+          <button id="clearBtn" class="sb-clear" aria-label="Clear" hidden>
+            <i class="ti ti-x" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="sb-field">
+        <label class="sb-label" for="methodSelect" data-i18n="calcMethod">Calculation method</label>
+        <select id="methodSelect" class="sb-select">
+          <option value="MuslimWorldLeague">Muslim World League</option>
+          <option value="NorthAmerica" selected>ISNA — North America</option>
+          <option value="Egyptian">Egyptian General Authority</option>
+          <option value="UmmAlQura">Umm al-Qura (Mecca)</option>
+          <option value="Dubai">Dubai</option>
+          <option value="Kuwait">Kuwait</option>
+          <option value="Qatar">Qatar</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Turkey">Turkey</option>
+          <option value="Tehran">Tehran</option>
+          <option value="Karachi">Karachi</option>
+        </select>
+      </div>
+
+      <button id="searchBtn" class="sb-search-btn">
+        <i class="ti ti-search" aria-hidden="true"></i>
+        <span data-i18n="search">Search</span>
+      </button>
+
+      <div id="statusMsg" class="sb-status" role="alert" aria-live="polite" hidden></div>
+
+      <div id="locationChip" class="sb-location-chip" hidden>
+        <div class="chip-name" id="chipName">—</div>
+        <div class="chip-coords" id="chipCoords">—</div>
+        <div class="chip-distance" id="chipDistance">—</div>
+      </div>
+
+      <div class="sb-spacer"></div>
+
+      <div class="sb-footer">
+        <button id="darkToggle" class="sb-foot-btn" title="Toggle dark mode">
+          <i class="ti ti-moon" aria-hidden="true"></i>
+          <span data-i18n="darkMode">Dark mode</span>
+        </button>
+        <button id="langToggle" class="sb-foot-btn">
+          <i class="ti ti-language" aria-hidden="true"></i>
+          <span class="lang-label">AR</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MOBILE TOP BAR -->
+    <header class="mobile-bar">
+      <button class="mob-menu-btn" id="mobMenuBtn" aria-label="Open menu">
+        <i class="ti ti-menu-2" aria-hidden="true"></i>
+      </button>
+      <span class="mob-title">🕋 Qibla</span>
+      <button id="mobDark" class="mob-icon-btn" aria-label="Toggle dark mode">
+        <i class="ti ti-moon" aria-hidden="true"></i>
+      </button>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+    <!-- MAIN -->
+    <main class="content" aria-label="Prayer times and Qibla direction">
+
+      <!-- Empty state -->
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon" aria-hidden="true">🕌</div>
+        <h1 class="empty-title" data-i18n="emptyTitle">Find your Qibla & prayer times</h1>
+        <p class="empty-sub" data-i18n="emptySub">Enter a city, address, or ZIP code in the panel on the left to get started.</p>
+        <button class="empty-cta" id="emptyCta" data-i18n="emptyBtn">Enter location</button>
+      </div>
+
+      <!-- Results -->
+      <div id="results" class="results" hidden>
+
+        <div class="loc-banner">
+          <i class="ti ti-map-pin loc-pin" aria-hidden="true"></i>
+          <div class="loc-info">
+            <span class="loc-name" id="locName">—</span>
+            <span class="loc-coords" id="locCoords">—</span>
+          </div>
+          <span class="loc-dist" id="locDist">—</span>
+        </div>
+
+        <div class="results-grid">
+
+          <!-- Prayer times -->
+          <section class="card prayer-card" aria-label="Prayer times">
+            <div class="card-head">
+              <div class="card-title-wrap">
+                <i class="ti ti-clock card-icon" aria-hidden="true"></i>
+                <h2 class="card-title" data-i18n="prayerTimes">Prayer times</h2>
+              </div>
+              <div class="prayer-date-wrap">
+                <span id="prayerDate" class="prayer-date">—</span>
+                <span id="hijriDate" class="hijri-date">—</span>
+              </div>
+            </div>
+            <ul class="prayer-list" id="prayerList" role="list"></ul>
+          </section>
+
+          <!-- Qibla compass -->
+          <section class="card compass-card" aria-label="Qibla direction">
+            <div class="card-head">
+              <div class="card-title-wrap">
+                <i class="ti ti-compass card-icon" aria-hidden="true"></i>
+                <h2 class="card-title" data-i18n="qiblaDirection">Qibla direction</h2>
+              </div>
+              <div id="qiblaDegreesSmall" class="qibla-deg-small">—</div>
+            </div>
+
+            <div class="compass-wrap" role="img" id="compassWrap" aria-label="Compass showing Qibla direction">
+              <svg class="compass-svg" viewBox="0 0 260 260" aria-hidden="true">
+                <circle cx="130" cy="130" r="124" stroke="var(--c-border)" stroke-width="1" fill="none"/>
+                <circle cx="130" cy="130" r="108" stroke="var(--c-border)" stroke-width="0.5" fill="none"/>
+                <g id="compassTicks"></g>
+                <text x="130" y="16"  text-anchor="middle" class="crd crd-n">N</text>
+                <text x="246" y="134" text-anchor="start"  class="crd">E</text>
+                <text x="130" y="253" text-anchor="middle" class="crd">S</text>
+                <text x="14"  y="134" text-anchor="end"    class="crd">W</text>
+              </svg>
+              <div class="needle-ring" id="needleRing">
+                <div class="needle">
+                  <div class="needle-tip"></div>
+                  <div class="needle-kaaba">🕋</div>
+                </div>
+              </div>
+              <div class="compass-dot" aria-hidden="true"></div>
+            </div>
+
+            <div class="qibla-info">
+              <span class="qibla-deg" id="qiblaDeg">—°</span>
+              <span class="qibla-cardinal" id="qiblaCardinal">—</span>
+            </div>
+            <div class="qibla-hint" id="qiblaHint" hidden></div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Install banner -->
+  <div id="installBanner" class="install-banner" hidden>
+    <i class="ti ti-download" aria-hidden="true"></i>
+    <span data-i18n="installPrompt">Add to home screen for offline use</span>
+    <button id="installBtn" class="install-btn" data-i18n="install">Install</button>
+    <button id="dismissInstall" class="install-dismiss" aria-label="Dismiss"><i class="ti ti-x"></i></button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
