@@ -5,17 +5,18 @@
 
 'use strict';
 
-const CACHE_NAME    = 'qibla-v1.2';
-const RUNTIME_CACHE = 'qibla-runtime-v1';
+const CACHE_NAME    = 'qibla-v1.3';
+const RUNTIME_CACHE = 'qibla-runtime-v2';
 
-/* Assets to pre-cache on install */
+/* Assets to pre-cache on install — local files only.
+   External resources (fonts, icons CDN) are cached lazily on first fetch. */
 const PRECACHE_ASSETS = [
-  './',
   './index.html',
   './styles.css',
   './app.js',
   './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
 ];
 
 /* ── INSTALL ── pre-cache static assets ───────────────────── */
