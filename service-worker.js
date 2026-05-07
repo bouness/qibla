@@ -15,8 +15,8 @@ const PRECACHE_ASSETS = [
   './styles.css',
   './app.js',
   './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
+  './icon-192.png',
+  './icon-512.png',
 ];
 
 /* ── INSTALL ── pre-cache static assets ───────────────────── */
@@ -129,8 +129,8 @@ self.addEventListener('push', event => {
   event.waitUntil(
     self.registration.showNotification(data.title || '🕌 Prayer Time', {
       body:  data.body  || 'It is time to pray.',
-      icon:  './icons/icon-192.png',
-      badge: './icons/icon-192.png',
+      icon:  './icon-192.png',
+      badge: './icon-192.png',
     })
   );
 });
