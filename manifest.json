@@ -2,7 +2,8 @@
   "name": "Qibla & Prayer Times قبلة",
   "short_name": "Qibla",
   "description": "Find Qibla direction and daily prayer times for any location — no GPS required.",
-  "start_url": "/",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0e0e1a",
@@ -14,22 +15,33 @@
       "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "screenshots": [],
   "shortcuts": [
     {
       "name": "Search Location",
       "short_name": "Search",
       "description": "Jump to location search",
-      "url": "/?action=search",
+      "url": ".",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
